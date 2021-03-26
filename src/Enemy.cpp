@@ -20,7 +20,7 @@ Enemy::Enemy() : m_currentAnimationState(IDLE) {
 	getRigidBody()->isColliding = false;
 	setType(ENEMY);
 
-	m_buildAnimation();
+	//m_buildAnimation();
 }
 
 Enemy::~Enemy()
@@ -116,60 +116,60 @@ void Enemy::setHasLOS(const bool state)
 	m_LOSColour = (m_hasLOS) ? glm::vec4(0, 1, 0, 1) : glm::vec4(1, 0, 0, 1);
 }
 
-void Enemy::m_buildAnimation()
-{
-	Animation idleAnimation = Animation();
-
-	idleAnimation.name = "Idle";
-	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-0"));
-	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-1"));
-	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-2"));
-	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-3"));
-
-	setAnimation(idleAnimation);
-
-	Animation patrolAnimation = Animation();
-
-	patrolAnimation.name = "Patrol";
-	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-0"));
-	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-1"));
-	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-2"));
-	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-3"));
-
-	setAnimation(patrolAnimation);
-
-	Animation seekAnimation = Animation();
-
-	seekAnimation.name = "Seeking";
-	seekAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-0"));
-	seekAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-1"));
-	seekAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-2"));
-	seekAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-3"));
-
-	setAnimation(seekAnimation);
-
-	Animation chaseAnimation = Animation();
-
-	chaseAnimation.name = "Chase";
-	chaseAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-0"));
-	chaseAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-1"));
-	chaseAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-2"));
-	chaseAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-3"));
-
-	setAnimation(chaseAnimation);
-
-	Animation combatAnimation = Animation();
-
-	combatAnimation.name = "Combat";
-	combatAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-0"));
-	combatAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-1"));
-	combatAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-2"));
-	combatAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-3"));
-
-	setAnimation(combatAnimation);
-
-
-}
+//void Enemy::m_buildAnimation()
+//{
+//	Animation idleAnimation = Animation();
+//
+//	idleAnimation.name = "Idle";
+//	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-0"));
+//	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-1"));
+//	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-2"));
+//	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-3"));
+//
+//	setAnimation(idleAnimation);
+//
+//	Animation patrolAnimation = Animation();
+//
+//	patrolAnimation.name = "Patrol";
+//	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-0"));
+//	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-1"));
+//	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-2"));
+//	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-3"));
+//
+//	setAnimation(patrolAnimation);
+//
+//	Animation seekAnimation = Animation();
+//
+//	seekAnimation.name = "Seeking";
+//	seekAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-0"));
+//	seekAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-1"));
+//	seekAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-2"));
+//	seekAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-3"));
+//
+//	setAnimation(seekAnimation);
+//
+//	Animation chaseAnimation = Animation();
+//
+//	chaseAnimation.name = "Chase";
+//	chaseAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-0"));
+//	chaseAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-1"));
+//	chaseAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-2"));
+//	chaseAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-3"));
+//
+//	setAnimation(chaseAnimation);
+//
+//	Animation combatAnimation = Animation();
+//
+//	combatAnimation.name = "Combat";
+//	combatAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-0"));
+//	combatAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-1"));
+//	combatAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-2"));
+//	combatAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-3"));
+//
+//	setAnimation(combatAnimation);
+//
+//
+//}
 
 void Enemy::m_changeDirection()
 {

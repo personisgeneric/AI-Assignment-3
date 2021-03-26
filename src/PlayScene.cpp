@@ -32,7 +32,7 @@ void PlayScene::update()
 {
 	updateDisplayList();
 
-	m_CheckShipLOS(m_pTarget);
+	m_CheckEnemyLOS(m_pTarget);
 }
 
 void PlayScene::clean()
@@ -168,7 +168,7 @@ void PlayScene::GUI_Function()
 	ImGui::StyleColorsDark();
 }
 
-void PlayScene::m_CheckShipLOS(DisplayObject* target_object)
+void PlayScene::m_CheckEnemyLOS(DisplayObject* target_object)
 {
 	// if ship to target distance is less than or equal to LOS Distance
 	auto ShipToTargetDistance = Util::distance(m_pShip->getTransform()->position, target_object->getTransform()->position);

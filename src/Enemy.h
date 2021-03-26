@@ -24,7 +24,7 @@ public:
 	
 
 private:
-	void m_buildAnimation();
+	//void m_buildAnimation();
 	EnemyAnimationState m_currentAnimationState;
 
 	float m_currentHeading;
