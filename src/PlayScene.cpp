@@ -32,7 +32,10 @@ void PlayScene::update()
 {
 	updateDisplayList();
 
-	m_CheckEnemyLOS(m_pTarget);
+	m_CheckEnemyLOS(m_pEnemy1, m_pPlayer);
+	m_CheckEnemyLOS(m_pEnemy2, m_pPlayer);
+	m_CheckEnemyLOS(m_pEnemy3, m_pPlayer);
+	m_CheckEnemyLOS(m_pEnemy4, m_pPlayer);
 }
 
 void PlayScene::clean()
@@ -59,17 +62,19 @@ void PlayScene::handleEvents()
 		TheGame::Instance()->changeSceneState(END_SCENE);
 	}
 
-	if(EventManager::Instance().isKeyDown(SDL_SCANCODE_F))
+	if(EventManager::Instance().isKeyDown(SDL_SCANCODE_H))
 	{
 
 	}
 	
-	if(EventManager::Instance().isKeyDown(SDL_SCANCODE_M))
+	if(EventManager::Instance().isKeyDown(SDL_SCANCODE_K))
 	{
+
 	}
 
-	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_G))
+	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_P))
 	{
+
 	}
 	
 }
@@ -117,7 +122,7 @@ void PlayScene::GUI_Function()
 	// See examples by uncommenting the following - also look at imgui_demo.cpp in the IMGUI filter
 	//ImGui::ShowDemoWindow();
 	
-	ImGui::Begin("GAME3001 - Lab 6", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
+	ImGui::Begin("GAME3001 - Assignment 3", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
 
 	// allow ship rotation
 	static int angle;
@@ -168,30 +173,30 @@ void PlayScene::GUI_Function()
 	ImGui::StyleColorsDark();
 }
 
-void PlayScene::m_CheckEnemyLOS(DisplayObject* target_object)
+void PlayScene::m_CheckEnemyLOS(Enemy* enemy_object, DisplayObject* target_object)
 {
 	// if ship to target distance is less than or equal to LOS Distance
-	auto ShipToTargetDistance = Util::distance(m_pShip->getTransform()->position, target_object->getTransform()->position);
-	if (ShipToTargetDistance <= m_pShip->getLOSDistance())
+	auto EnemyToTargetDistance = Util::distance(enemy_object->getTransform()->position, target_object->getTransform()->position);
+	if (EnemyToTargetDistance <= enemy_object->getLOSDistance())
 	{
 		std::vector<DisplayObject*> contactList;
 		for (auto object : getDisplayList())
 		{
 			// check if object is farther than than the target
-			auto ShipToObjectDistance = Util::distance(m_pShip->getTransform()->position, object->getTransform()->position);
+			auto EnemyToObjectDistance = Util::distance(enemy_object->getTransform()->position, object->getTransform()->position);
 
-			if (ShipToObjectDistance <= ShipToTargetDistance)
+			if (EnemyToObjectDistance <= EnemyToTargetDistance)
 			{
-				if ((object->getType() != m_pShip->getType()) && (object->getType() != target_object->getType()))
+				if ((object->getType() != enemy_object->getType()) && (object->getType() != target_object->getType()))
 				{
 					contactList.push_back(object);
 				}
 			}
 		}
 		contactList.push_back(target_object); // add the target to the end of the list
-		auto hasLOS = CollisionManager::LOSCheck(m_pShip->getTransform()->position,
-			m_pShip->getTransform()->position + m_pShip->getCurrentDirection() * m_pShip->getLOSDistance(), contactList, target_object);
+		auto hasLOS = CollisionManager::LOSCheck(enemy_object->getTransform()->position,
+			enemy_object->getTransform()->position + enemy_object->getCurrentDirection() * enemy_object->getLOSDistance(), contactList, target_object);
 
-		m_pShip->setHasLOS(hasLOS);
+		enemy_object->setHasLOS(hasLOS);
 	}
 }

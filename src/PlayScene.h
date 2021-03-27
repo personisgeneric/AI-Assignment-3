@@ -9,6 +9,8 @@
 #include "ship.h"
 #include "SpaceShip.h"
 #include "Target.h"
+#include "Enemy.h"
+#include "Player.h"
 
 class PlayScene : public Scene
 {
@@ -37,7 +39,12 @@ private:
 	Obstacle* m_pObstacle1;
 	Obstacle* m_pObstacle2;
 	Obstacle* m_pObstacle3;
-	void m_CheckEnemyLOS(DisplayObject* object);
+	Player* m_pPlayer;
+	Enemy* m_pEnemy1;
+	Enemy* m_pEnemy2;
+	Enemy* m_pEnemy3;
+	Enemy* m_pEnemy4;
+	void m_CheckEnemyLOS(Enemy* enemy, DisplayObject* object);
 };
 
 
