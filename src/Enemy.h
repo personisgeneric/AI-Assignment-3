@@ -21,11 +21,12 @@ public:
 
 	void setLOSDistance(float distance);
 	void setHasLOS(bool state);
-	
+	EnemyAnimationState getCurrentAnimationState() { return m_currentAnimationState; }
 
 private:
-	//void m_buildAnimation();
+	void m_buildAnimation();
 	EnemyAnimationState m_currentAnimationState;
+	
 
 	float m_currentHeading;
 	glm::vec2 m_currentDirection;

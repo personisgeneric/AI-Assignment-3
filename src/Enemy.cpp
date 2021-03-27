@@ -3,10 +3,10 @@
 #include "Util.h"
 
 Enemy::Enemy() : m_currentAnimationState(IDLE) {
-	//TextureManager::Instance()->loadSpriteSheet();
+	TextureManager::Instance()->loadSpriteSheet();
 
 
-	//setSpriteSheet(TextureManager::Instance()->getSpriteSheet("spritesheet"));
+	setSpriteSheet(TextureManager::Instance()->getSpriteSheet("spritesheet"));
 
 	//// set frame width
 	//setWidth(53);
@@ -20,7 +20,7 @@ Enemy::Enemy() : m_currentAnimationState(IDLE) {
 	getRigidBody()->isColliding = false;
 	setType(ENEMY);
 
-	//m_buildAnimation();
+	m_buildAnimation();
 }
 
 Enemy::~Enemy()
@@ -38,20 +38,17 @@ void Enemy::draw() {
 			x, y, 0.12f, 0, 255, true);
 		break;
 	case PATROL:
-		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("idle"),
+		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("patrol"),
 			x, y, 0.12f, 0, 255, true);
 		break;
-	case SEEKING:
-		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("run"),
+	case DAMAGE:
+		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("damage"),
 			x, y, 0.25f, 0, 255, true);
 		break;
-	case CHASING:
-		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("run"),
+	case DEATH:
+		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("death"),
 			x, y, 0.25f, 0, 255, true);
 		break;
-	case COMBAT:
-		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("Combat"),
-			x, y, 0.25f, 0, 255, true);
 	default:
 		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("idle"),
 			x, y, 0.12f, 0, 255, true);
@@ -116,60 +113,52 @@ void Enemy::setHasLOS(const bool state)
 	m_LOSColour = (m_hasLOS) ? glm::vec4(0, 1, 0, 1) : glm::vec4(1, 0, 0, 1);
 }
 
-//void Enemy::m_buildAnimation()
-//{
-//	Animation idleAnimation = Animation();
-//
-//	idleAnimation.name = "Idle";
-//	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-0"));
-//	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-1"));
-//	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-2"));
-//	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-3"));
-//
-//	setAnimation(idleAnimation);
-//
-//	Animation patrolAnimation = Animation();
-//
-//	patrolAnimation.name = "Patrol";
-//	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-0"));
-//	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-1"));
-//	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-2"));
-//	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-3"));
-//
-//	setAnimation(patrolAnimation);
-//
-//	Animation seekAnimation = Animation();
-//
-//	seekAnimation.name = "Seeking";
-//	seekAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-0"));
-//	seekAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-1"));
-//	seekAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-2"));
-//	seekAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-3"));
-//
-//	setAnimation(seekAnimation);
-//
-//	Animation chaseAnimation = Animation();
-//
-//	chaseAnimation.name = "Chase";
-//	chaseAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-0"));
-//	chaseAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-1"));
-//	chaseAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-2"));
-//	chaseAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-3"));
-//
-//	setAnimation(chaseAnimation);
-//
-//	Animation combatAnimation = Animation();
-//
-//	combatAnimation.name = "Combat";
-//	combatAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-0"));
-//	combatAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-1"));
-//	combatAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-2"));
-//	combatAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-3"));
-//
-//	setAnimation(combatAnimation);
-//
-//
-//}
+void Enemy::m_buildAnimation()
+{
+	Animation idleAnimation = Animation();
+
+	idleAnimation.name = "Idle";
+	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-0"));
+	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-1"));
+	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-2"));
+	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-3"));
+
+	setAnimation(idleAnimation);
+
+	Animation patrolAnimation = Animation();
+
+	patrolAnimation.name = "Patrol";
+	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-0"));
+	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-1"));
+	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-2"));
+	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-3"));
+
+	setAnimation(patrolAnimation);
+
+	Animation damageAnimation = Animation();
+
+	damageAnimation.name = "Damage";
+	damageAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-0"));
+	damageAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-1"));
+	damageAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-2"));
+	damageAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-3"));
+
+	setAnimation(damageAnimation);
+
+	Animation deathAnimation = Animation();
+
+	deathAnimation.name = "Death";
+	deathAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-0"));
+	deathAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-1"));
+	deathAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-2"));
+	deathAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-3"));
+
+	setAnimation(deathAnimation);
+
+	
+
+
+}
 
 void Enemy::m_changeDirection()
 {

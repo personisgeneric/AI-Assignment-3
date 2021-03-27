@@ -5,9 +5,8 @@
 enum EnemyAnimationState {
 	PATROL,
 	IDLE,
-	SEEKING,
-	CHASING,
-	COMBAT
+	DAMAGE,
+	DEATH
 };
 
 

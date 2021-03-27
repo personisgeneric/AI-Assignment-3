@@ -69,12 +69,18 @@ void PlayScene::handleEvents()
 	
 	if(EventManager::Instance().isKeyDown(SDL_SCANCODE_K))
 	{
-
+		m_pEnemy1->setAnimationState(DAMAGE);
+		m_pEnemy2->setAnimationState(DAMAGE);
+		m_pEnemy3->setAnimationState(DAMAGE);
+		m_pEnemy4->setAnimationState(DAMAGE);
 	}
 
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_P))
 	{
-
+		isPatroling(m_pEnemy1);
+		isPatroling(m_pEnemy2);
+		isPatroling(m_pEnemy3);
+		isPatroling(m_pEnemy4);
 	}
 	
 }
@@ -198,5 +204,14 @@ void PlayScene::m_CheckEnemyLOS(Enemy* enemy_object, DisplayObject* target_objec
 			enemy_object->getTransform()->position + enemy_object->getCurrentDirection() * enemy_object->getLOSDistance(), contactList, target_object);
 
 		enemy_object->setHasLOS(hasLOS);
+	}
+}
+
+void isPatroling(Enemy* enemy_object) {
+	if (enemy_object->getCurrentAnimationState() == PATROL) {
+		enemy_object->setAnimationState(IDLE);
+	}
+	if (enemy_object->getCurrentAnimationState() == IDLE) {
+		enemy_object->setAnimationState(PATROL);
 	}
 }
