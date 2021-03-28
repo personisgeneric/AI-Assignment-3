@@ -11,6 +11,16 @@
 #include "Target.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "Tile.h"
+
+struct Node {
+	Tile* position;
+	Node* next;
+	Node(Tile* value1, Node* next1 = nullptr) {
+		position = value1;
+		next = next1;
+	}
+};
 
 class PlayScene : public Scene
 {
@@ -34,6 +44,12 @@ private:
 	glm::vec2 m_mousePosition;
 	bool m_isGridEnabled;
 
+	std::vector<Tile*> m_pGrid;
+	Tile* m_getTile(int col, int row);
+	Tile* m_getTile(glm::vec2 grid_position);
+
+	Node patrolPath;
+
 	Target* m_pTarget;
 	Ship* m_pShip;
 	Obstacle* m_pObstacle1;
@@ -45,7 +61,11 @@ private:
 	Enemy* m_pEnemy3;
 	Enemy* m_pEnemy4;
 	void m_CheckEnemyLOS(Enemy* enemy, DisplayObject* object);
+	void m_buildGrid();
+	void m_drawGrid();
 };
+
+
 
 
 
