@@ -16,6 +16,7 @@
 struct Node {
 	Tile* position;
 	Node* next;
+	Node() {};
 	Node(Tile* value1, Node* next1 = nullptr) {
 		position = value1;
 		next = next1;
@@ -48,7 +49,10 @@ private:
 	Tile* m_getTile(int col, int row);
 	Tile* m_getTile(glm::vec2 grid_position);
 
-	Node patrolPath;
+	Node patrolPath1;
+	Node patrolPath2;
+	Node patrolPath3;
+	Node patrolPath4;
 
 	Target* m_pTarget;
 	Ship* m_pShip;
