@@ -12,6 +12,7 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "Tile.h"
+#include "ProgressTag.h"
 
 //struct Node {
 //	Tile* position;
@@ -44,6 +45,7 @@ private:
 	std::string m_guiTitle;
 	glm::vec2 m_mousePosition;
 	bool m_isGridEnabled;
+	Label* m_pProgressLabel{};
 
 	/*std::vector<Tile*> m_pGrid;
 	Tile* m_getTile(int col, int row);
@@ -53,12 +55,14 @@ private:
 	Node patrolPath2;
 	Node patrolPath3;
 	Node patrolPath4;*/
-
+	int m_pNumEnemies =4;
 	Target* m_pTarget;
 	Ship* m_pShip;
 	Obstacle* m_pObstacle1;
 	Obstacle* m_pObstacle2;
 	Obstacle* m_pObstacle3;
+
+	ProgressTag* m_pProgress;
 	/*Player* m_pPlayer;
 	Enemy* m_pEnemy1;
 	Enemy* m_pEnemy2;

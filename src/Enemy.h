@@ -2,6 +2,7 @@
 #include "Sprite.h"
 #include "EnemyAnimationState.h"
 #include "Util.h"
+#include <glm/vec4.hpp>
 
 class Enemy : public Sprite{
 public:

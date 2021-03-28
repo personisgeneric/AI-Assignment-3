@@ -25,9 +25,15 @@ void PlayScene::draw()
 	{
 		GUI_Function();	
 	}
-
+	TextureManager::Instance()->load("../Assets/textures/enemiesLeft0.png", "enemiesLeft0");
+	TextureManager::Instance()->load("../Assets/textures/enemiesLeft1.png", "enemiesLeft1");
+	TextureManager::Instance()->load("../Assets/textures/enemiesLeft2.png", "enemiesLeft2");
+	TextureManager::Instance()->load("../Assets/textures/enemiesLeft3.png", "enemiesLeft3");
+	TextureManager::Instance()->load("../Assets/textures/enemiesLeft4.png", "enemiesLeft4");
+	TextureManager::Instance()->draw("enemiesLeft4", 555, 40, 0, 255, true);
 	drawDisplayList();
-
+	
+	
 	SDL_SetRenderDrawColor(Renderer::Instance()->getRenderer(), 255, 255, 255, 255);
 }
 
@@ -39,6 +45,7 @@ void PlayScene::update()
 	m_CheckEnemyLOS(m_pEnemy2, m_pPlayer);
 	m_CheckEnemyLOS(m_pEnemy3, m_pPlayer);
 	m_CheckEnemyLOS(m_pEnemy4, m_pPlayer);*/
+	m_pProgress->setNumEnemies(m_pNumEnemies);
 }
 
 void PlayScene::clean()
@@ -67,6 +74,7 @@ void PlayScene::handleEvents()
 
 	if(EventManager::Instance().isKeyDown(SDL_SCANCODE_H))
 	{
+		m_pNumEnemies--;
 
 	}
 	
@@ -92,7 +100,7 @@ void PlayScene::start()
 {
 	// Set GUI Title
 	m_guiTitle = "Play Scene";
-
+	//TextureManager::Instance()->draw("enemiesLeft4", 555, 40, 0, 255, true);
 	// add the ship to the scene as a start point
 	m_pShip = new Ship();
 	m_pShip->getTransform()->position = glm::vec2(200.0f, 300.0f);
@@ -118,6 +126,14 @@ void PlayScene::start()
 	m_pTarget->getTransform()->position = glm::vec2(600.0f, 300.0f);
 	addChild(m_pTarget);
 
+	const SDL_Color blue = { 0, 0, 255, 255 };
+	m_pProgressLabel = new Label("Enemies left: ", "Consolas", 40, blue, glm::vec2(400.0f, 40.0f));
+	m_pProgressLabel->setParent(this);
+	addChild(m_pProgressLabel);
+
+	m_pProgress = new ProgressTag();
+	m_pProgress->getTransform()->position = glm::vec2(555.0f, 40.0f);
+	addChild(m_pProgress);
 	//m_buildGrid();
 	//m_drawGrid();
 
