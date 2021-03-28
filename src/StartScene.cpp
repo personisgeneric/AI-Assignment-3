@@ -45,11 +45,12 @@ void StartScene::handleEvents()
 
 void StartScene::start()
 {
-	const SDL_Color blue = { 0, 0, 255, 255 };
-	m_pNameLabel = new Label("Gray, Kim, Qureshi", "Consolas", 80, blue, glm::vec2(40.0f, 40.0f));
+	const SDL_Color purple = { 120,81,169, 255 };
+	m_pNameLabel = new Label("Gray, Kim, Qureshi", "Consolas", 40, purple, glm::vec2(400.0f, 80.0f));
 	m_pNameLabel->setParent(this);
 	addChild(m_pNameLabel);
 	
+	const SDL_Color blue = { 0, 0, 255, 255 };
 	m_pStartLabel = new Label("START SCENE", "Consolas", 80, blue, glm::vec2(400.0f, 40.0f));
 	m_pStartLabel->setParent(this);
 	addChild(m_pStartLabel);

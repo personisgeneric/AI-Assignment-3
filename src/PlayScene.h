@@ -13,15 +13,15 @@
 #include "Player.h"
 #include "Tile.h"
 
-struct Node {
-	Tile* position;
-	Node* next;
-	Node() {};
-	Node(Tile* value1, Node* next1 = nullptr) {
-		position = value1;
-		next = next1;
-	}
-};
+//struct Node {
+//	Tile* position;
+//	Node* next;
+//	Node() {};
+//	Node(Tile* value1, Node* next1 = nullptr) {
+//		position = value1;
+//		next = next1;
+//	}
+//};
 
 class PlayScene : public Scene
 {
@@ -45,28 +45,28 @@ private:
 	glm::vec2 m_mousePosition;
 	bool m_isGridEnabled;
 
-	std::vector<Tile*> m_pGrid;
+	/*std::vector<Tile*> m_pGrid;
 	Tile* m_getTile(int col, int row);
 	Tile* m_getTile(glm::vec2 grid_position);
 
 	Node patrolPath1;
 	Node patrolPath2;
 	Node patrolPath3;
-	Node patrolPath4;
+	Node patrolPath4;*/
 
 	Target* m_pTarget;
 	Ship* m_pShip;
 	Obstacle* m_pObstacle1;
 	Obstacle* m_pObstacle2;
 	Obstacle* m_pObstacle3;
-	Player* m_pPlayer;
+	/*Player* m_pPlayer;
 	Enemy* m_pEnemy1;
 	Enemy* m_pEnemy2;
 	Enemy* m_pEnemy3;
 	Enemy* m_pEnemy4;
 	void m_CheckEnemyLOS(Enemy* enemy, DisplayObject* object);
 	void m_buildGrid();
-	void m_drawGrid();
+	void m_drawGrid();*/
 };
 
 

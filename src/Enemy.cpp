@@ -3,7 +3,7 @@
 #include "Util.h"
 
 Enemy::Enemy() : m_currentAnimationState(IDLE) {
-	TextureManager::Instance()->loadSpriteSheet();
+	/*TextureManager::Instance()->loadSpriteSheet();*/
 
 
 	setSpriteSheet(TextureManager::Instance()->getSpriteSheet("spritesheet"));
