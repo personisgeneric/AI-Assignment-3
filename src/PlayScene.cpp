@@ -93,6 +93,21 @@ void PlayScene::handleEvents()
 		isPatroling(m_pEnemy3);
 		isPatroling(m_pEnemy4);*/
 	}
+	if (m_pProgress->getNumEnemies() == 3) {
+		TextureManager::Instance()->draw("enemiesLeft3", 555, 40, 0, 255, true);
+	}
+	if (m_pProgress->getNumEnemies() == 2) {
+		TextureManager::Instance()->draw("enemiesLeft2", 555, 40, 0, 255, true);
+	}
+	if (m_pProgress->getNumEnemies() == 1) {
+		TextureManager::Instance()->draw("enemiesLeft1", 555, 40, 0, 255, true);
+	}
+	if (m_pProgress->getNumEnemies() == 0) {
+		TextureManager::Instance()->draw("enemiesLeft0", 555, 40, 0, 255, true);
+	}
+	
+
+
 	
 }
 
@@ -134,6 +149,7 @@ void PlayScene::start()
 	m_pProgress = new ProgressTag();
 	m_pProgress->getTransform()->position = glm::vec2(555.0f, 40.0f);
 	addChild(m_pProgress);
+	
 	//m_buildGrid();
 	//m_drawGrid();
 

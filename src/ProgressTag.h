@@ -14,7 +14,7 @@ public:
 	void update() override;
 	void clean() override;
 
-	void setNumEnemies(int n) { n = numEnemies; }
+	void setNumEnemies(int n) {  numEnemies = n; }
 	int getNumEnemies() { return numEnemies; }
 
 private:
