@@ -6,7 +6,7 @@ Enemy::Enemy() : m_currentAnimationState(IDLE) {
 	/*TextureManager::Instance()->loadSpriteSheet();*/
 
 
-	setSpriteSheet(TextureManager::Instance()->getSpriteSheet("spritesheet"));
+	setSpriteSheet(TextureManager::Instance()->getSpriteSheet("enemySpritesheet"));
 
 	//// set frame width
 	//setWidth(53);
