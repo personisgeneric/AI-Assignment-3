@@ -47,11 +47,11 @@ private:
 	bool m_isGridEnabled;
 	Label* m_pProgressLabel{};
 
-	/*std::vector<Tile*> m_pGrid;
+	std::vector<Tile*> m_pGrid;
 	Tile* m_getTile(int col, int row);
 	Tile* m_getTile(glm::vec2 grid_position);
 
-	Node patrolPath1;
+	/*Node patrolPath1;
 	Node patrolPath2;
 	Node patrolPath3;
 	Node patrolPath4;*/
@@ -68,9 +68,9 @@ private:
 	Enemy* m_pEnemy2;
 	Enemy* m_pEnemy3;
 	Enemy* m_pEnemy4;
-	void m_CheckEnemyLOS(Enemy* enemy, DisplayObject* object);
+	void m_CheckEnemyLOS(Enemy* enemy, DisplayObject* object);*/
 	void m_buildGrid();
-	void m_drawGrid();*/
+	
 };
 
 

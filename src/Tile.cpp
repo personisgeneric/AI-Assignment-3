@@ -11,6 +11,7 @@ Tile::Tile() :m_cost(0.0f)
 {
 	setWidth(Config::TILE_SIZE);
 	setHeight(Config::TILE_SIZE);
+	
 }
 
 Tile::~Tile()
@@ -63,28 +64,40 @@ TileStatus Tile::getTileStatus() const
 
 void Tile::setTileStatus(const TileStatus status)
 {
+	const auto x = getTransform()->position.x;
+	const auto y = getTransform()->position.y;
 	m_status = status;
 
 	switch(status)
 	{
-	case UNVISITED:
-		m_statusLabel->setText("--");
+	case TOP_LEFT:
+		TextureManager::Instance()->draw("topLeft", x, y, 0, 255, true);
 		break;
-	case OPEN:
-		m_statusLabel->setText("O");
+	case TOP_MIDDLE:
+		TextureManager::Instance()->draw("topMiddle", x, y, 0, 255, true);
 		break;
-	case CLOSED:
-		m_statusLabel->setText("C");
+	case TOP_RIGHT:
+		TextureManager::Instance()->draw("topRight", x, y, 0, 255, true);
+		break;
+	case MIDDLE_LEFT:
+		TextureManager::Instance()->draw("middleLeft", x, y, 0, 255, true);
+		break;
+	case MIDDLE_RIGHT:
+		TextureManager::Instance()->draw("middleRight", x, y, 0, 255, true);
+		break;
+	case BOTTOM_LEFT:
+		TextureManager::Instance()->draw("bottomLeft", x, y, 0, 255, true);
+		break;
+	case BOTTOM_MIDDLE:
+		TextureManager::Instance()->draw("bottomMiddle", x, y, 0, 255, true);
+		break;
+	case BOTTOM_RIGHT:
+		TextureManager::Instance()->draw("bottomRight", x, y, 0, 255, true);
 		break;
 	case IMPASSABLE:
 		m_statusLabel->setText("I");
 		break;
-	case GOAL:
-		m_statusLabel->setText("G");
-		break;
-	case START:
-		m_statusLabel->setText("S");
-		break;
+	
 	}
 }
 

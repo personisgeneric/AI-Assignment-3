@@ -19,22 +19,31 @@ PlayScene::~PlayScene()
 void PlayScene::draw()
 {
 	/*TextureManager::Instance()->loadSpriteSheet("../Assets/sprites/tilesetCondensed.png", "tilesetAtlas", "tileset");*/
-
+	
 
 	if(EventManager::Instance().isIMGUIActive())
 	{
 		GUI_Function();	
 	}
-	TextureManager::Instance()->load("../Assets/textures/enemiesLeft0.png", "enemiesLeft0");
+	/*TextureManager::Instance()->load("../Assets/textures/enemiesLeft0.png", "enemiesLeft0");
 	TextureManager::Instance()->load("../Assets/textures/enemiesLeft1.png", "enemiesLeft1");
 	TextureManager::Instance()->load("../Assets/textures/enemiesLeft2.png", "enemiesLeft2");
 	TextureManager::Instance()->load("../Assets/textures/enemiesLeft3.png", "enemiesLeft3");
 	TextureManager::Instance()->load("../Assets/textures/enemiesLeft4.png", "enemiesLeft4");
-	TextureManager::Instance()->draw("enemiesLeft4", 555, 40, 0, 255, true);
+	TextureManager::Instance()->draw("enemiesLeft4", 555, 40, 0, 255, true);*/
+	TextureManager::Instance()->load("...Assets/Textures/TOP_LEFT.png", "topLeft");
+	TextureManager::Instance()->load("...Assets/Textures/TOP_MIDDLE.png", "topMiddle");
+	TextureManager::Instance()->load("...Assets/Textures/TOP_RIGHT.png", "topRight");
+	TextureManager::Instance()->load("...Assets/Textures/MIDDLE_LEFT.png", "middleLeft");
+	TextureManager::Instance()->load("...Assets/Textures/MIDDLE_RIGHT.png", "middleRight");
+	TextureManager::Instance()->load("...Assets/Textures/BOTTOM_LEFT.png", "bottomLeft");
+	TextureManager::Instance()->load("...Assets/Textures/BOTTOM_MIDDLE.png", "bottomMiddle");
+	TextureManager::Instance()->load("...Assets/Textures/BOTTOM_RIGHT.png", "bottomRight");
+	TextureManager::Instance()->load("...Assets/Textures/FLOOR.png", "floor");
 	drawDisplayList();
 	
 	
-	SDL_SetRenderDrawColor(Renderer::Instance()->getRenderer(), 255, 255, 255, 255);
+	
 }
 
 void PlayScene::update()
@@ -45,7 +54,7 @@ void PlayScene::update()
 	m_CheckEnemyLOS(m_pEnemy2, m_pPlayer);
 	m_CheckEnemyLOS(m_pEnemy3, m_pPlayer);
 	m_CheckEnemyLOS(m_pEnemy4, m_pPlayer);*/
-	m_pProgress->setNumEnemies(m_pNumEnemies);
+	/*m_pProgress->setNumEnemies(m_pNumEnemies);*/
 }
 
 void PlayScene::clean()
@@ -74,7 +83,7 @@ void PlayScene::handleEvents()
 
 	if(EventManager::Instance().isKeyDown(SDL_SCANCODE_H))
 	{
-		m_pNumEnemies--;
+		/*m_pNumEnemies--;*/
 
 	}
 	
@@ -93,7 +102,7 @@ void PlayScene::handleEvents()
 		isPatroling(m_pEnemy3);
 		isPatroling(m_pEnemy4);*/
 	}
-	if (m_pProgress->getNumEnemies() == 3) {
+	/*if (m_pProgress->getNumEnemies() == 3) {
 		TextureManager::Instance()->draw("enemiesLeft3", 555, 40, 0, 255, true);
 	}
 	if (m_pProgress->getNumEnemies() == 2) {
@@ -104,7 +113,8 @@ void PlayScene::handleEvents()
 	}
 	if (m_pProgress->getNumEnemies() == 0) {
 		TextureManager::Instance()->draw("enemiesLeft0", 555, 40, 0, 255, true);
-	}
+	}*/
+	
 	
 
 
@@ -115,12 +125,58 @@ void PlayScene::start()
 {
 	// Set GUI Title
 	m_guiTitle = "Play Scene";
+	m_buildGrid();
+	m_getTile(0, 0)->setTileStatus(TOP_LEFT);
+	TextureManager::Instance()->draw("topLeft", m_getTile(0, 0)->getTransform()->position.x, m_getTile(0, 0)->getTransform()->position.y, 0, 255, true);
+	for (int i = 1; i < Config::ROW_NUM - 1; i++) {
+		m_getTile(0,i)->setTileStatus(TOP_MIDDLE);
+	}
+	m_getTile(0, 15)->setTileStatus(TOP_RIGHT);
+	for (int i = 1; i < Config::ROW_NUM - 1; i++) {
+		m_getTile(0, 1)->setTileStatus(MIDDLE_LEFT);
+	}
+	for (int i = 1; i < Config::ROW_NUM - 1; i++) {
+		m_getTile(20, i)->setTileStatus(MIDDLE_RIGHT);
+	}
+	m_getTile(20, 0)->setTileStatus(BOTTOM_LEFT);
+	for (int i = 1; i < Config::COL_NUM - 1; i++) {
+		m_getTile(i,15)->setTileStatus(BOTTOM_MIDDLE);
+	}
+	m_getTile(20, 15)->setTileStatus(BOTTOM_RIGHT);
+	
+
+	/*for (int i = 0; i < m_pGrid.size(); i++) {
+		if (m_pGrid[i]->getTileStatus() == TOP_LEFT) {
+			TextureManager::Instance()->draw("topLeft",true);
+		}
+		if (m_pGrid[i]->getTileStatus() == TOP_MIDDLE) {
+			TextureManager::Instance()->draw("topMiddle", m_pGrid[i]->getTransform()->position.x, m_pGrid[i]->getTransform()->position.y, 0, 255, true);
+		}
+		if (m_pGrid[i]->getTileStatus() == TOP_RIGHT) {
+			TextureManager::Instance()->draw("topRight", m_pGrid[i]->getTransform()->position.x, m_pGrid[i]->getTransform()->position.y, 0, 255, true);
+		}
+		if (m_pGrid[i]->getTileStatus() == MIDDLE_LEFT) {
+			TextureManager::Instance()->draw("middleLeft", m_pGrid[i]->getTransform()->position.x, m_pGrid[i]->getTransform()->position.y, 0, 255, true);
+		}
+		if (m_pGrid[i]->getTileStatus() == MIDDLE_RIGHT) {
+			TextureManager::Instance()->draw("middleRight", m_pGrid[i]->getTransform()->position.x, m_pGrid[i]->getTransform()->position.y, 0, 255, true);
+		}
+		if (m_pGrid[i]->getTileStatus() == BOTTOM_LEFT) {
+			TextureManager::Instance()->draw("bottomLeft", m_pGrid[i]->getTransform()->position.x, m_pGrid[i]->getTransform()->position.y, 0, 255, true);
+		}
+		if (m_pGrid[i]->getTileStatus() == BOTTOM_MIDDLE) {
+			TextureManager::Instance()->draw("bottomMiddle", m_pGrid[i]->getTransform()->position.x, m_pGrid[i]->getTransform()->position.y, 0, 255, true);
+		}
+		if (m_pGrid[i]->getTileStatus() == BOTTOM_RIGHT) {
+			TextureManager::Instance()->draw("bottomRight", m_pGrid[i]->getTransform()->position.x, m_pGrid[i]->getTransform()->position.y, 0, 255, true);
+		}
+	}*/
 	//TextureManager::Instance()->draw("enemiesLeft4", 555, 40, 0, 255, true);
 	// add the ship to the scene as a start point
 	m_pShip = new Ship();
 	m_pShip->getTransform()->position = glm::vec2(200.0f, 300.0f);
 	addChild(m_pShip, 2);
-
+	
 	// add the Obstacle to the scene as a start point
 	m_pObstacle1 = new Obstacle();
 	m_pObstacle1->getTransform()->position = glm::vec2(400.0f, 300.0f);
@@ -150,8 +206,7 @@ void PlayScene::start()
 	m_pProgress->getTransform()->position = glm::vec2(555.0f, 40.0f);
 	addChild(m_pProgress);
 	
-	//m_buildGrid();
-	//m_drawGrid();
+	
 
 }
 
@@ -217,93 +272,90 @@ void PlayScene::GUI_Function()
 	ImGui::StyleColorsDark();
 }
 
-//void PlayScene::m_buildGrid()
-//{
-//	auto tileSize = Config::TILE_SIZE;
-//
-//	// add tiles to the grid
-//	for (int row = 0; row < Config::ROW_NUM; ++row)
-//	{
-//		for (int col = 0; col < Config::COL_NUM; ++col)
-//		{
-//			Tile* tile = new Tile(); // create empty tile
-//			tile->getTransform()->position = glm::vec2(col * tileSize, row * tileSize);
-//			tile->setGridPosition(col, row);
-//			addChild(tile);
-//			tile->addLabels();
-//			tile->setEnabled(false);
-//			m_pGrid.push_back(tile);
-//		}
-//	}
-//
-//	// create references for each tile to its neighbours
-//	for (int row = 0; row < Config::ROW_NUM; ++row)
-//	{
-//		for (int col = 0; col < Config::COL_NUM; ++col)
-//		{
-//			Tile* tile = m_getTile(col, row);
-//
-//			// Topmost row
-//			if (row == 0)
-//			{
-//				tile->setNeighbourTile(TOP_TILE, nullptr);
-//			}
-//			else
-//			{
-//				tile->setNeighbourTile(TOP_TILE, m_getTile(col, row - 1));
-//			}
-//
-//			// rightmost column
-//			if (col == Config::COL_NUM - 1)
-//			{
-//				tile->setNeighbourTile(RIGHT_TILE, nullptr);
-//			}
-//			else
-//			{
-//				tile->setNeighbourTile(RIGHT_TILE, m_getTile(col + 1, row));
-//			}
-//
-//			// bottommost row
-//			if (row == Config::ROW_NUM - 1)
-//			{
-//				tile->setNeighbourTile(BOTTOM_TILE, nullptr);
-//			}
-//			else
-//			{
-//				tile->setNeighbourTile(BOTTOM_TILE, m_getTile(col, row + 1));
-//			}
-//
-//			// leftmost  column
-//			if (col == 0)
-//			{
-//				tile->setNeighbourTile(LEFT_TILE, nullptr);
-//			}
-//			else
-//			{
-//				tile->setNeighbourTile(LEFT_TILE, m_getTile(col - 1, row));
-//			}
-//		}
-//	}
-//
-//	std::cout << m_pGrid.size() << std::endl;
-//}
-//
-////void PlayScene::m_drawGrid() {
-////	
-////	m_getTile(0,0)->
-////}
-//
-//Tile* PlayScene::m_getTile(const int col, const int row)
-//{
-//	return m_pGrid[(row * Config::COL_NUM) + col];
-//}
-//
-//Tile* PlayScene::m_getTile(const glm::vec2 grid_position)
-//{
-//	const auto col = grid_position.x;
-//	const auto row = grid_position.y;
-//	return m_pGrid[(row * Config::COL_NUM) + col];
-//}
+void PlayScene::m_buildGrid()
+{
+	auto tileSize = Config::TILE_SIZE;
+
+	// add tiles to the grid
+	for (int row = 0; row < Config::ROW_NUM; ++row)
+	{
+		for (int col = 0; col < Config::COL_NUM; ++col)
+		{
+			Tile* tile = new Tile(); // create empty tile
+			tile->getTransform()->position = glm::vec2(col * tileSize, row * tileSize);
+			tile->setGridPosition(col, row);
+			addChild(tile);
+			tile->addLabels();
+			tile->setEnabled(false);
+			m_pGrid.push_back(tile);
+		}
+	}
+
+	// create references for each tile to its neighbours
+	for (int row = 0; row < Config::ROW_NUM; ++row)
+	{
+		for (int col = 0; col < Config::COL_NUM; ++col)
+		{
+			Tile* tile = m_getTile(col, row);
+
+			// Topmost row
+			if (row == 0)
+			{
+				tile->setNeighbourTile(TOP_TILE, nullptr);
+			}
+			else
+			{
+				tile->setNeighbourTile(TOP_TILE, m_getTile(col, row - 1));
+			}
+
+			// rightmost column
+			if (col == Config::COL_NUM - 1)
+			{
+				tile->setNeighbourTile(RIGHT_TILE, nullptr);
+			}
+			else
+			{
+				tile->setNeighbourTile(RIGHT_TILE, m_getTile(col + 1, row));
+			}
+
+			// bottommost row
+			if (row == Config::ROW_NUM - 1)
+			{
+				tile->setNeighbourTile(BOTTOM_TILE, nullptr);
+			}
+			else
+			{
+				tile->setNeighbourTile(BOTTOM_TILE, m_getTile(col, row + 1));
+			}
+
+			// leftmost  column
+			if (col == 0)
+			{
+				tile->setNeighbourTile(LEFT_TILE, nullptr);
+			}
+			else
+			{
+				tile->setNeighbourTile(LEFT_TILE, m_getTile(col - 1, row));
+			}
+		}
+	}
+
+	
+	std::cout << m_pGrid.size() << std::endl;
+}
+
+
+Tile* PlayScene::m_getTile(const int col, const int row)
+{
+	return m_pGrid[(row * Config::COL_NUM) + col];
+}
+
+Tile* PlayScene::m_getTile(const glm::vec2 grid_position)
+{
+	const auto col = grid_position.x;
+	const auto row = grid_position.y;
+	return m_pGrid[(row * Config::COL_NUM) + col];
+}
 
 //void PlayScene::m_CheckEnemyLOS(Enemy* enemy_object, DisplayObject* target_object)
 //{
