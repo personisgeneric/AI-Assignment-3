@@ -18,29 +18,25 @@ PlayScene::~PlayScene()
 
 void PlayScene::draw()
 {
-	/*TextureManager::Instance()->loadSpriteSheet("../Assets/sprites/tilesetCondensed.png", "tilesetAtlas", "tileset");*/
+	
+	TextureManager::Instance()->draw("background", 400, 300, 0, 255, true);
+	drawDisplayList();
+	
 	
 
 	if(EventManager::Instance().isIMGUIActive())
 	{
 		GUI_Function();	
 	}
+	
 	/*TextureManager::Instance()->load("../Assets/textures/enemiesLeft0.png", "enemiesLeft0");
 	TextureManager::Instance()->load("../Assets/textures/enemiesLeft1.png", "enemiesLeft1");
 	TextureManager::Instance()->load("../Assets/textures/enemiesLeft2.png", "enemiesLeft2");
 	TextureManager::Instance()->load("../Assets/textures/enemiesLeft3.png", "enemiesLeft3");
 	TextureManager::Instance()->load("../Assets/textures/enemiesLeft4.png", "enemiesLeft4");
 	TextureManager::Instance()->draw("enemiesLeft4", 555, 40, 0, 255, true);*/
-	TextureManager::Instance()->load("...Assets/Textures/TOP_LEFT.png", "topLeft");
-	TextureManager::Instance()->load("...Assets/Textures/TOP_MIDDLE.png", "topMiddle");
-	TextureManager::Instance()->load("...Assets/Textures/TOP_RIGHT.png", "topRight");
-	TextureManager::Instance()->load("...Assets/Textures/MIDDLE_LEFT.png", "middleLeft");
-	TextureManager::Instance()->load("...Assets/Textures/MIDDLE_RIGHT.png", "middleRight");
-	TextureManager::Instance()->load("...Assets/Textures/BOTTOM_LEFT.png", "bottomLeft");
-	TextureManager::Instance()->load("...Assets/Textures/BOTTOM_MIDDLE.png", "bottomMiddle");
-	TextureManager::Instance()->load("...Assets/Textures/BOTTOM_RIGHT.png", "bottomRight");
-	TextureManager::Instance()->load("...Assets/Textures/FLOOR.png", "floor");
-	drawDisplayList();
+	
+	
 	
 	
 	
@@ -125,53 +121,9 @@ void PlayScene::start()
 {
 	// Set GUI Title
 	m_guiTitle = "Play Scene";
+	TextureManager::Instance()->load("../Assets/textures/background.PNG","background");
 	m_buildGrid();
-	m_getTile(0, 0)->setTileStatus(TOP_LEFT);
-	TextureManager::Instance()->draw("topLeft", m_getTile(0, 0)->getTransform()->position.x, m_getTile(0, 0)->getTransform()->position.y, 0, 255, true);
-	for (int i = 1; i < Config::ROW_NUM - 1; i++) {
-		m_getTile(0,i)->setTileStatus(TOP_MIDDLE);
-	}
-	m_getTile(0, 15)->setTileStatus(TOP_RIGHT);
-	for (int i = 1; i < Config::ROW_NUM - 1; i++) {
-		m_getTile(0, 1)->setTileStatus(MIDDLE_LEFT);
-	}
-	for (int i = 1; i < Config::ROW_NUM - 1; i++) {
-		m_getTile(20, i)->setTileStatus(MIDDLE_RIGHT);
-	}
-	m_getTile(20, 0)->setTileStatus(BOTTOM_LEFT);
-	for (int i = 1; i < Config::COL_NUM - 1; i++) {
-		m_getTile(i,15)->setTileStatus(BOTTOM_MIDDLE);
-	}
-	m_getTile(20, 15)->setTileStatus(BOTTOM_RIGHT);
 	
-
-	/*for (int i = 0; i < m_pGrid.size(); i++) {
-		if (m_pGrid[i]->getTileStatus() == TOP_LEFT) {
-			TextureManager::Instance()->draw("topLeft",true);
-		}
-		if (m_pGrid[i]->getTileStatus() == TOP_MIDDLE) {
-			TextureManager::Instance()->draw("topMiddle", m_pGrid[i]->getTransform()->position.x, m_pGrid[i]->getTransform()->position.y, 0, 255, true);
-		}
-		if (m_pGrid[i]->getTileStatus() == TOP_RIGHT) {
-			TextureManager::Instance()->draw("topRight", m_pGrid[i]->getTransform()->position.x, m_pGrid[i]->getTransform()->position.y, 0, 255, true);
-		}
-		if (m_pGrid[i]->getTileStatus() == MIDDLE_LEFT) {
-			TextureManager::Instance()->draw("middleLeft", m_pGrid[i]->getTransform()->position.x, m_pGrid[i]->getTransform()->position.y, 0, 255, true);
-		}
-		if (m_pGrid[i]->getTileStatus() == MIDDLE_RIGHT) {
-			TextureManager::Instance()->draw("middleRight", m_pGrid[i]->getTransform()->position.x, m_pGrid[i]->getTransform()->position.y, 0, 255, true);
-		}
-		if (m_pGrid[i]->getTileStatus() == BOTTOM_LEFT) {
-			TextureManager::Instance()->draw("bottomLeft", m_pGrid[i]->getTransform()->position.x, m_pGrid[i]->getTransform()->position.y, 0, 255, true);
-		}
-		if (m_pGrid[i]->getTileStatus() == BOTTOM_MIDDLE) {
-			TextureManager::Instance()->draw("bottomMiddle", m_pGrid[i]->getTransform()->position.x, m_pGrid[i]->getTransform()->position.y, 0, 255, true);
-		}
-		if (m_pGrid[i]->getTileStatus() == BOTTOM_RIGHT) {
-			TextureManager::Instance()->draw("bottomRight", m_pGrid[i]->getTransform()->position.x, m_pGrid[i]->getTransform()->position.y, 0, 255, true);
-		}
-	}*/
-	//TextureManager::Instance()->draw("enemiesLeft4", 555, 40, 0, 255, true);
 	// add the ship to the scene as a start point
 	m_pShip = new Ship();
 	m_pShip->getTransform()->position = glm::vec2(200.0f, 300.0f);

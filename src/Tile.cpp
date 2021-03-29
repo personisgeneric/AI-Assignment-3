@@ -12,6 +12,7 @@ Tile::Tile() :m_cost(0.0f)
 	setWidth(Config::TILE_SIZE);
 	setHeight(Config::TILE_SIZE);
 	
+	
 }
 
 Tile::~Tile()
@@ -64,11 +65,12 @@ TileStatus Tile::getTileStatus() const
 
 void Tile::setTileStatus(const TileStatus status)
 {
+
 	const auto x = getTransform()->position.x;
 	const auto y = getTransform()->position.y;
 	m_status = status;
 
-	switch(status)
+	/*switch (status)
 	{
 	case TOP_LEFT:
 		TextureManager::Instance()->draw("topLeft", x, y, 0, 255, true);
@@ -97,8 +99,8 @@ void Tile::setTileStatus(const TileStatus status)
 	case IMPASSABLE:
 		m_statusLabel->setText("I");
 		break;
-	
-	}
+
+	}*/
 }
 
 void Tile::addLabels()
