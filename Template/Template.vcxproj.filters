@@ -144,7 +144,11 @@
     <ClCompile Include="..\src\ProgressTag.cpp">
       <Filter>Game Objects</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="..\src\Bullet.cpp">
+=======
+    <ClCompile Include="..\src\HealthBar.cpp">
+>>>>>>> master
       <Filter>Game Objects</Filter>
     </ClCompile>
   </ItemGroup>
@@ -311,7 +315,11 @@
     <ClInclude Include="..\src\ProgressTag.h">
       <Filter>Game Objects</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="..\src\Bullet.h">
+=======
+    <ClInclude Include="..\src\HealthBar.h">
+>>>>>>> master
       <Filter>Game Objects</Filter>
     </ClInclude>
   </ItemGroup>
