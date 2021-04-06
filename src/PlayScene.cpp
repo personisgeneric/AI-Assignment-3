@@ -6,6 +6,7 @@
 #include "imgui.h"
 #include "imgui_sdl.h"
 #include "Renderer.h"
+#include "Bullet.h"
 #include "Util.h"
 
 PlayScene::PlayScene()
@@ -45,7 +46,7 @@ void PlayScene::draw()
 void PlayScene::update()
 {
 	updateDisplayList();
-
+	m_shootTimer += 1;
 	/*m_CheckEnemyLOS(m_pEnemy1, m_pPlayer);
 	m_CheckEnemyLOS(m_pEnemy2, m_pPlayer);
 	m_CheckEnemyLOS(m_pEnemy3, m_pPlayer);
@@ -112,13 +113,21 @@ void PlayScene::handleEvents()
 	}*/
 	
 	
-
+	if (EventManager::Instance().getMouseButton(RIGHT) && m_shootTimer > 10)
+	{
+		m_pShip->shoot();
+		m_pPlayerBullets.push_back(m_pShip->getBullet());
+		addChild(m_pPlayerBullets.at(m_pPlayerBullets.size() - 1));
+		m_shootTimer = 0;
+	}
 
 	
 }
 
 void PlayScene::start()
 {
+	m_shootTimer = 0.0f;
+	
 	// Set GUI Title
 	m_guiTitle = "Play Scene";
 	TextureManager::Instance()->load("../Assets/textures/background.PNG","background");

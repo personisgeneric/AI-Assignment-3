@@ -1,0 +1,5 @@
+player-idle-0 80 105 31 31
+player-idle-1 117 105 31 31
+player-run-0 166 10 31 31
+player-run-1 205 10 31 31
+player-run-2 242 10 31 31

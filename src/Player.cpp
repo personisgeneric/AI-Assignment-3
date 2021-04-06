@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "TextureManager.h"
 
-Player::Player(): m_currentAnimationState(PLAYER_IDLE_RIGHT)
+Player::Player(): m_currentAnimationState(PLAYER_IDLE)
 {
 	TextureManager::Instance()->loadSpriteSheet(
 		"../Assets/sprites/atlas.txt",
@@ -35,35 +35,35 @@ void Player::draw()
 	const auto y = getTransform()->position.y;
 
 	// draw the player according to animation state
-	switch(m_currentAnimationState)
-	{
-	case PLAYER_IDLE_RIGHT:
-		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("idle"),
-			x, y, 0.12f, 0, 255, true);
-		break;
-	case PLAYER_IDLE_LEFT:
-		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("idle"),
-			x, y, 0.12f, 0, 255, true, SDL_FLIP_HORIZONTAL);
-		break;
-	case PLAYER_RUN_RIGHT:
-		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("run"),
-			x, y, 0.25f, 0, 255, true);
-		break;
-	case PLAYER_RUN_LEFT:
-		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("run"),
-			x, y, 0.25f, 0, 255, true, SDL_FLIP_HORIZONTAL);
-		break;
-	default:
-		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("idle"),
-			x, y, 0.12f, 0, 255, true);
-		break;
-	}
+	//switch(m_currentAnimationState)
+	//{
+	//case PLAYER_IDLE_RIGHT:
+	//	TextureManager::Instance()->playAnimation("spritesheet", getAnimation("idle"),
+	//		x, y, 0.12f, 0, 255, true);
+	//	break;
+	//case PLAYER_IDLE_LEFT:
+	//	TextureManager::Instance()->playAnimation("spritesheet", getAnimation("idle"),
+	//		x, y, 0.12f, 0, 255, true, SDL_FLIP_HORIZONTAL);
+	//	break;
+	//case PLAYER_RUN_RIGHT:
+	//	TextureManager::Instance()->playAnimation("spritesheet", getAnimation("run"),
+	//		x, y, 0.25f, 0, 255, true);
+	//	break;
+	//case PLAYER_RUN_LEFT:
+	//	TextureManager::Instance()->playAnimation("spritesheet", getAnimation("run"),
+	//		x, y, 0.25f, 0, 255, true, SDL_FLIP_HORIZONTAL);
+	//	break;
+	//default:
+	//	TextureManager::Instance()->playAnimation("spritesheet", getAnimation("idle"),
+	//		x, y, 0.12f, 0, 255, true);
+	//	break;
+	//}
 	
 }
 
 void Player::update()
 {
-	if(m_currentAnimationState == PLAYER_RUN_RIGHT)
+	/*if(m_currentAnimationState == PLAYER_RUN_RIGHT)
 	{
 		getTransform()->position += glm::vec2(5.0f, 0.0f);
 	}
@@ -81,7 +81,7 @@ void Player::update()
 	if (m_currentAnimationState == PLAYER_RUN_DOWN)
 	{
 		getTransform()->position += glm::vec2(0.0f, -5.0f);
-	}
+	}*/
 }
 
 void Player::clean()

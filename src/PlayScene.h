@@ -2,6 +2,8 @@
 #ifndef __PLAY_SCENE__
 #define __PLAY_SCENE__
 
+#include <utility>
+#include "UIControl.h"
 #include "Scene.h"
 #include "Button.h"
 #include "Label.h"
@@ -47,6 +49,9 @@ private:
 	bool m_isGridEnabled;
 	Label* m_pProgressLabel{};
 
+	float m_shootTimer;
+	std::vector<Bullet*> m_pPlayerBullets;
+	
 	std::vector<Tile*> m_pGrid;
 	Tile* m_getTile(int col, int row);
 	Tile* m_getTile(glm::vec2 grid_position);

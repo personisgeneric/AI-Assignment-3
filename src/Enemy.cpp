@@ -9,7 +9,7 @@ Enemy::Enemy() : m_currentAnimationState(IDLE)
 		"../Assets/sprites/atlas.png",
 		"spritesheet");
 
-	setSpriteSheet(TextureManager::Instance()->getSpriteSheet("spritesheet"));
+	setSpriteSheet(TextureManager::Instance()->getSpriteSheet("enemySpritesheet"));
 
 	// set frame width
 	setWidth(53);

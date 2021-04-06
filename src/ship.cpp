@@ -1,21 +1,29 @@
 #include "ship.h"
+
+#include "EventManager.h"
 #include "glm/gtx/string_cast.hpp"
 #include "PlayScene.h"
 #include "TextureManager.h"
 #include "Util.h"
+#include "Sprite.h"
 
-Ship::Ship() : m_maxSpeed(10.0f)
-{
-	TextureManager::Instance()->load("../Assets/textures/ship3.png","ship");
+Ship::Ship() : m_currentAnimationState(PLAYER_IDLE) {
+	TextureManager::Instance()->loadSpriteSheet(
+		"../Assets/sprites/LudicoloSpriteSheet.txt",
+		"../Assets/Sprites/LudicoloSpritesheet.png",
+		"playerSpriteSheet");
 
-	auto size = TextureManager::Instance()->getTextureSize("ship");
-	setWidth(size.x);
-	setHeight(size.y);
+	setSpriteSheet(TextureManager::Instance()->getSpriteSheet("playerSpriteSheet"));
 
+	// Set frame width and height
+	setWidth(32);
+	setHeight(32);
+	
 	getTransform()->position = glm::vec2(400.0f, 300.0f);
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
+	setMaxSpeed(3.0f);
 	setType(SHIP);
 	
 	m_currentHeading = 0.0f; // current facing angle
@@ -24,6 +32,7 @@ Ship::Ship() : m_maxSpeed(10.0f)
 
 	m_LOSDistance = 400.0f; // 5 ppf x 80 feet
 	m_LOSColour = glm::vec4(1, 0, 0, 1);
+	m_buildAnimations();
 }
 
 
@@ -36,8 +45,18 @@ void Ship::draw()
 	const auto x = getTransform()->position.x;
 	const auto y = getTransform()->position.y;
 
-	// draw the ship
+	// draw the ship based on the animation state
 	TextureManager::Instance()->draw("ship", x, y, m_currentHeading, 255, true);
+	switch (m_currentAnimationState) {
+	// Idle animations
+	case PLAYER_IDLE:
+		TextureManager::Instance()->playAnimation("playerSpriteSheet", getAnimation("idle"), 
+			x, y, 0.05, m_currentHeading, 255, false, SDL_FLIP_NONE);
+		break;
+	case PLAYER_RUN:
+		TextureManager::Instance()->playAnimation("playerSpriteSheet", getAnimation("run"),
+			x, y, 0.05, m_currentHeading, 255, false, SDL_FLIP_NONE);
+	}
 
 	// draw LOS
 	Util::DrawLine(getTransform()->position, getTransform()->position + getCurrentDirection() * m_LOSDistance, m_LOSColour);
@@ -46,8 +65,11 @@ void Ship::draw()
 
 void Ship::update()
 {
-	/*move();
-	m_checkBounds();*/
+	if (SDL_NumJoysticks() > 1)
+		SDL_JoystickOpen;
+	move();
+	updateRotation();
+	/*m_checkBounds();*/
 }
 
 void Ship::clean()
@@ -85,10 +107,36 @@ void Ship::moveBack()
 	getRigidBody()->velocity = m_currentDirection * -m_maxSpeed;
 }
 
-void Ship::move()
-{
-	getTransform()->position += getRigidBody()->velocity;
-	getRigidBody()->velocity *= 0.9f;
+void Ship::move() {
+	setAnimationState(PLAYER_IDLE);
+	
+	// Movement without controller
+	if (SDL_NumJoysticks() < 1) {
+		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_D)) {
+
+			if (getTransform()->position.x + m_maxSpeed < 800 - 32)
+				getTransform()->position.x += m_maxSpeed;
+			setAnimationState(PLAYER_RUN);
+		}
+		// left
+		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_A)) {
+			if (getTransform()->position.x - m_maxSpeed > 0)
+				getTransform()->position.x -= m_maxSpeed;
+			setAnimationState(PLAYER_RUN);
+		}
+		// up
+		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_W)) {
+			if (getTransform()->position.y - m_maxSpeed > 0)
+				getTransform()->position.y -= m_maxSpeed;
+			setAnimationState(PLAYER_RUN);
+		}
+		// down
+		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_S)) {
+			if (getTransform()->position.y + m_maxSpeed < 600 - 32)
+				getTransform()->position.y += m_maxSpeed;
+			setAnimationState(PLAYER_RUN);
+		}
+	}
 }
 
 glm::vec2 Ship::getTargetPosition() const
@@ -199,3 +247,63 @@ void Ship::m_changeDirection()
 	glm::vec2 size = TextureManager::Instance()->getTextureSize("ship");
 }
 
+void Ship::m_buildAnimations() {
+	// Idle straight
+	Animation idleAnimation = Animation();
+	idleAnimation.name = "idle";
+	
+	std::string tmp_str = "player-idle-";
+	for (int i = 0; i < 2; i++)
+		idleAnimation.frames.push_back(getSpriteSheet()->getFrame(tmp_str + std::to_string(i)));
+	setAnimation(idleAnimation);
+
+	// Run
+	Animation runAnimation = Animation();
+	runAnimation.name = "run";
+
+	tmp_str = "player-run-";
+		for (int i = 0; i < 3; i++)
+			runAnimation.frames.push_back(getSpriteSheet()->getFrame(tmp_str + std::to_string(i)));
+	setAnimation(runAnimation);
+}
+
+void Ship::updateRotation() {
+	if (SDL_NumJoysticks() < 1) {
+		int Delta_x, Delta_y,
+			mouse_x, mouse_y;
+
+		SDL_GetMouseState(&mouse_x, &mouse_y);
+		Delta_x = getTransform()->position.x - mouse_x;
+		Delta_y = getTransform()->position.y - mouse_y;
+
+		m_currentHeading = (atan2(Delta_y, Delta_x) * 180.0000) / 3.14159265 + 180;
+		m_currentDirection = { -Delta_x , -Delta_y };
+	}
+	else
+	{
+		int Delta_x, Delta_y,
+			game_x, game_y;
+
+		game_x = EventManager::Instance().getGameController(0)->RIGHT_STICK_X;
+		game_y = EventManager::Instance().getGameController(0)->RIGHT_STICK_Y;
+		Delta_x = getTransform()->position.x - game_x;
+		Delta_y = getTransform()->position.y - game_y;
+
+		m_currentHeading = (atan2(Delta_y, Delta_x) * 180.0000) / 3.14159265 + 180;
+		m_currentDirection = { -Delta_x , -Delta_y };
+	}
+}
+
+void Ship::shoot() {
+	m_playerBullets.push_back(new Bullet(getTransform()->position, m_currentDirection, m_currentHeading));
+	std::cout << "x = " << getTransform()->position.x << std::endl << "y = " << getTransform()->position.y << std::endl;
+	std::cout << "fired" << std::endl;
+}
+
+void Ship::deleteBullet(int _pos) {
+	delete m_playerBullets[_pos];
+	m_playerBullets.shrink_to_fit();
+}
+
+void Ship::setAnimationState(const PlayerAnimationState new_state) { m_currentAnimationState = new_state; }
+Bullet* Ship::getBullet() { return m_playerBullets.at(m_playerBullets.size() - 1); }
