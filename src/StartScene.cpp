@@ -85,6 +85,8 @@ void StartScene::start()
 	});
 	addChild(m_pStartButton);
 
-	
+	SoundManager::Instance().setMusicVolume(20);
+	SoundManager::Instance().load("../Assets/audio/bgMusic1.mp3", "startSceneMusic", SOUND_MUSIC);
+	SoundManager::Instance().playMusic("startSceneMusic", -1);
 }
 
