@@ -2,19 +2,22 @@
 #include "TextureManager.h"
 #include "Util.h"
 
-Enemy::Enemy() : m_currentAnimationState(IDLE) {
-	/*TextureManager::Instance()->loadSpriteSheet();*/
-
+Enemy::Enemy() : m_currentAnimationState(IDLE) 
+{
+	TextureManager::Instance()->loadSpriteSheet(
+		"../Assets/sprites/atlas.txt",
+		"../Assets/sprites/atlas.png",
+		"spritesheet");
 
 	setSpriteSheet(TextureManager::Instance()->getSpriteSheet("spritesheet"));
 
-	//// set frame width
-	//setWidth(53);
+	// set frame width
+	setWidth(53);
 
-	//// set frame height
-	//setHeight(58);
+	// set frame height
+	setHeight(58);
 
-	//getTransform()->position = glm::vec2(400.0f, 300.0f);
+	getTransform()->position = glm::vec2(400.0f, 300.0f);
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
@@ -30,7 +33,7 @@ void Enemy::draw() {
 	const auto x = getTransform()->position.x;
 	const auto y = getTransform()->position.y;
 
-	// draw the player according to animation state
+	// draw the enemy according to animation state
 	switch (m_currentAnimationState)
 	{
 	case IDLE:

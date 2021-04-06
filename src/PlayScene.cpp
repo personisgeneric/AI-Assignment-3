@@ -158,7 +158,9 @@ void PlayScene::start()
 	m_pProgress->getTransform()->position = glm::vec2(555.0f, 40.0f);
 	addChild(m_pProgress);
 	
-	
+	SoundManager::Instance().setMusicVolume(20);
+	SoundManager::Instance().load("../Assets/audio/bgMusic2.mp3", "playSceneMusic", SOUND_MUSIC);
+	SoundManager::Instance().playMusic("playSceneMusic", -1);
 
 }
 
