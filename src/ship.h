@@ -2,12 +2,14 @@
 #ifndef __SHIP__
 #define __SHIP__
 
-#include "DisplayObject.h"
-#include "TextureManager.h"
 #include <glm/vec4.hpp>
+#include "DisplayObject.h"
+#include "Bullet.h"
+#include "TextureManager.h"
+#include "PlayerAnimationState.h"
+#include "Sprite.h"
 
-class Ship final : public DisplayObject
-{
+class Ship final : public Sprite {
 public:
 	Ship();
 	~Ship();
@@ -23,6 +25,7 @@ public:
 	void moveBack();
 	
 	void move();
+	void m_buildAnimations();
 
 	// getters
 	glm::vec2 getTargetPosition() const;
@@ -32,6 +35,7 @@ public:
 	float getLOSDistance() const;
 	bool hasLOS() const;
 	float getCurrentHeading() const;
+	Bullet* getBullet();
 
 	// setters
 	void setTargetPosition(glm::vec2 newPosition);
@@ -41,6 +45,11 @@ public:
 	void setLOSDistance(float distance);
 	void setHasLOS(bool state);
 	void setCurrentHeading(float heading);
+	void setAnimationState(const PlayerAnimationState new_state);
+
+	void shoot();
+	void deleteBullet(int _pos);
+	void updateRotation();
 
 private:
 	void m_checkBounds();
@@ -55,12 +64,13 @@ private:
 	glm::vec2 m_currentDirection;
 	glm::vec2 m_targetPosition;
 
+	PlayerAnimationState m_currentAnimationState;
+	std::vector <Bullet*> m_playerBullets; 
 	// LOS
 	float m_LOSDistance;
 	bool m_hasLOS;
 	glm::vec4 m_LOSColour;
 };
-
 
 #endif /* defined (__SHIP__) */
 

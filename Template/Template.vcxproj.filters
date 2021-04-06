@@ -144,6 +144,9 @@
     <ClCompile Include="..\src\ProgressTag.cpp">
       <Filter>Game Objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Bullet.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\StartScene.h">
@@ -306,6 +309,9 @@
       <Filter>Enums</Filter>
     </ClInclude>
     <ClInclude Include="..\src\ProgressTag.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Bullet.h">
       <Filter>Game Objects</Filter>
     </ClInclude>
   </ItemGroup>
