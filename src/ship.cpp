@@ -109,7 +109,6 @@ void Ship::moveBack()
 
 void Ship::move() {
 	setAnimationState(PLAYER_IDLE);
-	
 	// Movement without controller
 	if (SDL_NumJoysticks() < 1) {
 		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_D)) {
@@ -135,6 +134,33 @@ void Ship::move() {
 			if (getTransform()->position.y + m_maxSpeed < 600 - 32)
 				getTransform()->position.y += m_maxSpeed;
 			setAnimationState(PLAYER_RUN);
+		}
+	}
+	else
+	{
+		int deadzone = 10000;
+		if (EventManager::Instance().getGameController(0)->LEFT_STICK_X > 0 || EventManager::Instance().getGameController(0)->LEFT_STICK_X < 0 || EventManager::Instance().getGameController(0)->LEFT_STICK_Y  > 0 || EventManager::Instance().getGameController(0)->LEFT_STICK_Y < 0) {
+			if (EventManager::Instance().getGameController(0)->LEFT_STICK_X > deadzone) {
+				setAnimationState(PLAYER_RUN);
+				getTransform()->position.x += m_maxSpeed;
+			}
+			else if (EventManager::Instance().getGameController(0)->LEFT_STICK_X < -deadzone) {
+				setAnimationState(PLAYER_RUN);
+				getTransform()->position.x -= m_maxSpeed;
+			}
+			if (EventManager::Instance().getGameController(0)->LEFT_STICK_Y > deadzone) {
+				setAnimationState(PLAYER_RUN);
+				getTransform()->position.y += m_maxSpeed;
+			}
+			else if (EventManager::Instance().getGameController(0)->LEFT_STICK_Y < -deadzone) {
+				setAnimationState(PLAYER_RUN);
+				getTransform()->position.y -= m_maxSpeed;
+			}
+		}
+		else 
+		{
+			setAnimationState(PLAYER_IDLE);
+			getTransform()->position = getTransform()->position;
 		}
 	}
 }

@@ -113,15 +113,13 @@ void PlayScene::handleEvents()
 	}*/
 	
 	
-	if (EventManager::Instance().getMouseButton(RIGHT) && m_shootTimer > 10)
+	if (EventManager::Instance().getGameController(0)->RIGHT_SHOULDER && m_shootTimer > 20 || EventManager::Instance().getMouseButton(RIGHT) && m_shootTimer > 20)
 	{
 		m_pShip->shoot();
 		m_pPlayerBullets.push_back(m_pShip->getBullet());
 		addChild(m_pPlayerBullets.at(m_pPlayerBullets.size() - 1));
 		m_shootTimer = 0;
-	}
-
-	
+	}	
 }
 
 void PlayScene::start()
