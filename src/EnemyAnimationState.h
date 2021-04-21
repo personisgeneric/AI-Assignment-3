@@ -4,7 +4,10 @@
 
 enum EnemyAnimationState {
 	PATROL,
-	IDLE,
+	IDLE_UP,
+	IDLE_RIGHT,
+	IDLE_DOWN,
+	IDLE_LEFT,
 	DAMAGE,
 	DEATH
 };

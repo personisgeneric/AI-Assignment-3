@@ -311,7 +311,7 @@ void Ship::m_buildAnimations() {
 
 	tmp_str = "player-melee-";
 	for (int i = 0; i < 3; i++)
-		runAnimation.frames.push_back(getSpriteSheet()->getFrame(tmp_str + std::to_string(i)));
+		meleeAnimation.frames.push_back(getSpriteSheet()->getFrame(tmp_str + std::to_string(i)));
 	setAnimation(meleeAnimation);
 }
 

@@ -2,14 +2,14 @@
 #include "TextureManager.h"
 #include "Util.h"
 
-Enemy::Enemy() : m_currentAnimationState(IDLE) 
+Enemy::Enemy() : m_currentAnimationState(IDLE_RIGHT) 
 {
 	TextureManager::Instance()->loadSpriteSheet(
-		"../Assets/sprites/atlas.txt",
-		"../Assets/sprites/atlas.png",
-		"spritesheet");
+		"../Assets/sprites/enemy-spritesheet.txt",
+		"../Assets/sprites/enemy-spritesheet.png",
+		"enemySpriteSheet");
 
-	setSpriteSheet(TextureManager::Instance()->getSpriteSheet("enemySpritesheet"));
+	setSpriteSheet(TextureManager::Instance()->getSpriteSheet("enemySpriteSheet"));
 
 	// set frame width
 	setWidth(53);
@@ -36,24 +36,41 @@ void Enemy::draw() {
 	// draw the enemy according to animation state
 	switch (m_currentAnimationState)
 	{
-	case IDLE:
-		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("idle"),
+	// ------------------ Idle ------------------- //
+	case IDLE_UP:
+		TextureManager::Instance()->playAnimation("enemySpriteSheet", getAnimation("idleUp"),
 			x, y, 0.12f, 0, 255, true);
 		break;
+	case IDLE_RIGHT:
+		TextureManager::Instance()->playAnimation("enemySpriteSheet", getAnimation("idleRight"),
+			x, y, 0.12f, 0, 255, true);
+		break;
+	case IDLE_DOWN:
+		TextureManager::Instance()->playAnimation("enemySpriteSheet", getAnimation("idleDown"),
+			x, y, 0.12f, 0, 255, true);
+		break;
+	case IDLE_LEFT:
+		TextureManager::Instance()->playAnimation("enemySpriteSheet", getAnimation("idleLeft"),
+			x, y, 0.12f, 0, 255, true);
+		break;
+
+	// ------------------ Patrol ------------------- //
 	case PATROL:
-		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("patrol"),
+		TextureManager::Instance()->playAnimation("enemySpriteSheet", getAnimation("patrol"),
 			x, y, 0.12f, 0, 255, true);
 		break;
+
+
 	case DAMAGE:
-		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("damage"),
+		TextureManager::Instance()->playAnimation("enemySpriteSheet", getAnimation("damage"),
 			x, y, 0.25f, 0, 255, true);
 		break;
 	case DEATH:
-		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("death"),
+		TextureManager::Instance()->playAnimation("enemySpriteSheet", getAnimation("death"),
 			x, y, 0.25f, 0, 255, true);
 		break;
 	default:
-		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("idle"),
+		TextureManager::Instance()->playAnimation("enemySpriteSheet", getAnimation("idle"),
 			x, y, 0.12f, 0, 255, true);
 		break;
 	}
@@ -64,11 +81,6 @@ void Enemy::draw() {
 void Enemy::update() {
 
 }
-
-
-
-
-
 
 void Enemy::clean()
 {
@@ -118,24 +130,50 @@ void Enemy::setHasLOS(const bool state)
 
 void Enemy::m_buildAnimation()
 {
-	Animation idleAnimation = Animation();
+	// ------------------------- Idle -----------------------
+	// Left
+		Animation idleLeftAnimation = Animation();
+	idleLeftAnimation.name = "idleLeft";
 
-	idleAnimation.name = "Idle";
-	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-0"));
-	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-1"));
-	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-2"));
-	idleAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-idle-3"));
+	std::string tmp_str = "enemy-idle-left-";
+	for (int i = 0; i < 2; i++)
+		idleLeftAnimation.frames.push_back(getSpriteSheet()->getFrame(tmp_str + std::to_string(i)));
+	setAnimation(idleLeftAnimation);
 
-	setAnimation(idleAnimation);
+	// Right
+	Animation idleRightAnimation = Animation();
+	idleRightAnimation.name = "idleRight";
 
+	tmp_str = "enemy-idle-right-";
+	for (int i = 0; i < 2; i++)
+		idleRightAnimation.frames.push_back(getSpriteSheet()->getFrame(tmp_str + std::to_string(i)));
+	setAnimation(idleRightAnimation);
+
+	// Up
+	Animation idleUpAnimation = Animation();
+	idleUpAnimation.name = "idleRight";
+
+	tmp_str = "enemy-idle-up-";
+	for (int i = 0; i < 2; i++)
+		idleUpAnimation.frames.push_back(getSpriteSheet()->getFrame(tmp_str + std::to_string(i)));
+	setAnimation(idleUpAnimation);
+
+	// Down
+	Animation idleDownAnimation = Animation();
+	idleDownAnimation.name = "idleDown";
+
+	tmp_str = "enemy-idle-Down-";
+	for (int i = 0; i < 2; i++)
+		idleDownAnimation.frames.push_back(getSpriteSheet()->getFrame(tmp_str + std::to_string(i)));
+	setAnimation(idleDownAnimation);
+	
+	// Run
 	Animation patrolAnimation = Animation();
+	patrolAnimation.name = "patrol";
 
-	patrolAnimation.name = "Patrol";
-	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-0"));
-	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-1"));
-	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-2"));
-	patrolAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-3"));
-
+	tmp_str = "enemy-run-";
+	for (int i = 0; i < 3; i++)
+		patrolAnimation.frames.push_back(getSpriteSheet()->getFrame(tmp_str + std::to_string(i)));
 	setAnimation(patrolAnimation);
 
 	Animation damageAnimation = Animation();
