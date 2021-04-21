@@ -83,6 +83,10 @@ void PlayScene::handleEvents()
 		/*m_pNumEnemies--;*/
 
 	}
+	if(EventManager::Instance().isKeyDown(SDL_SCANCODE_T))
+	{
+		m_pShip->setAnimationState(PLAYER_HURT);
+	}
 	
 	if(EventManager::Instance().isKeyDown(SDL_SCANCODE_K))
 	{
@@ -112,14 +116,23 @@ void PlayScene::handleEvents()
 		TextureManager::Instance()->draw("enemiesLeft0", 555, 40, 0, 255, true);
 	}*/
 	
-	
-	if (EventManager::Instance().getGameController(0)->RIGHT_SHOULDER && m_shootTimer > 20 || EventManager::Instance().getMouseButton(RIGHT) && m_shootTimer > 20)
+	if (EventManager::Instance().getMouseButton(RIGHT) && m_shootTimer > 20)
 	{
 		m_pShip->shoot();
 		m_pPlayerBullets.push_back(m_pShip->getBullet());
 		addChild(m_pPlayerBullets.at(m_pPlayerBullets.size() - 1));
 		m_shootTimer = 0;
-	}	
+	}
+	if (SDL_NumJoysticks() > 0)
+	{
+		if (EventManager::Instance().getGameController(0)->RIGHT_SHOULDER&& m_shootTimer > 20)
+		{
+			m_pShip->shoot();
+			m_pPlayerBullets.push_back(m_pShip->getBullet());
+			addChild(m_pPlayerBullets.at(m_pPlayerBullets.size() - 1));
+			m_shootTimer = 0;
+		}
+	}
 }
 
 void PlayScene::start()

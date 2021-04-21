@@ -16,8 +16,8 @@ Ship::Ship() : m_currentAnimationState(PLAYER_IDLE) {
 	setSpriteSheet(TextureManager::Instance()->getSpriteSheet("playerSpriteSheet"));
 
 	// Set frame width and height
-	setWidth(32);
-	setHeight(32);
+	setWidth(31);
+	setHeight(31);
 	
 	getTransform()->position = glm::vec2(400.0f, 300.0f);
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
@@ -56,6 +56,12 @@ void Ship::draw()
 	case PLAYER_RUN:
 		TextureManager::Instance()->playAnimation("playerSpriteSheet", getAnimation("run"),
 			x, y, 0.05, m_currentHeading, 255, false, SDL_FLIP_NONE);
+	case PLAYER_HURT:
+		TextureManager::Instance()->playAnimation("playerSpriteSheet", getAnimation("hurt"),
+			x, y, 0.05, 0, 255, false, SDL_FLIP_NONE);
+	case PLAYER_MELEE:
+		TextureManager::Instance()->playAnimation("playerSpriteSheet", getAnimation("melee"),
+			x, y, 0.05, m_currentHeading, 255, false, SDL_FLIP_NONE);
 	}
 
 	// draw LOS
@@ -72,9 +78,7 @@ void Ship::update()
 	/*m_checkBounds();*/
 }
 
-void Ship::clean()
-{
-}
+void Ship::clean() { }
 
 void Ship::turnRight()
 {
@@ -274,7 +278,7 @@ void Ship::m_changeDirection()
 }
 
 void Ship::m_buildAnimations() {
-	// Idle straight
+	// Idle
 	Animation idleAnimation = Animation();
 	idleAnimation.name = "idle";
 	
@@ -291,6 +295,24 @@ void Ship::m_buildAnimations() {
 		for (int i = 0; i < 3; i++)
 			runAnimation.frames.push_back(getSpriteSheet()->getFrame(tmp_str + std::to_string(i)));
 	setAnimation(runAnimation);
+
+	// Hurt
+	Animation hurtAnimation = Animation();
+	hurtAnimation.name = "hurt";
+
+	tmp_str = "player-hurt-";
+	for (int i = 0; i < 9; i++)
+		hurtAnimation.frames.push_back(getSpriteSheet()->getFrame(tmp_str + std::to_string(i)));
+	setAnimation(hurtAnimation);
+
+	// Melee
+	Animation meleeAnimation = Animation();
+	meleeAnimation.name = "melee";
+
+	tmp_str = "player-melee-";
+	for (int i = 0; i < 3; i++)
+		runAnimation.frames.push_back(getSpriteSheet()->getFrame(tmp_str + std::to_string(i)));
+	setAnimation(meleeAnimation);
 }
 
 void Ship::updateRotation() {
@@ -322,8 +344,7 @@ void Ship::updateRotation() {
 
 void Ship::shoot() {
 	m_playerBullets.push_back(new Bullet(getTransform()->position, m_currentDirection, m_currentHeading));
-	std::cout << "x = " << getTransform()->position.x << std::endl << "y = " << getTransform()->position.y << std::endl;
-	std::cout << "fired" << std::endl;
+	setAnimationState(PLAYER_MELEE);
 }
 
 void Ship::deleteBullet(int _pos) {
