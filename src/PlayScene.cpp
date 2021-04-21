@@ -125,7 +125,7 @@ void PlayScene::handleEvents()
 	}
 	if (SDL_NumJoysticks() > 0)
 	{
-		if (EventManager::Instance().getGameController(0)->RIGHT_SHOULDER&& m_shootTimer > 20)
+		if (EventManager::Instance().getGameController(0)->RIGHT_SHOULDER && m_shootTimer > 20)
 		{
 			m_pShip->shoot();
 			m_pPlayerBullets.push_back(m_pShip->getBullet());
