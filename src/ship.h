@@ -55,6 +55,8 @@ private:
 	void m_checkBounds();
 	void m_reset();
 
+	int m_health; // This will hold the player's m_health
+
 	// steering behaviours
 	float m_maxSpeed;
 	float m_turnRate;

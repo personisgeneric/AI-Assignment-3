@@ -8,16 +8,28 @@
 #include "Sprite.h"
 
 Ship::Ship() : m_currentAnimationState(PLAYER_IDLE) {
+	// Load the player and health bar sprites
 	TextureManager::Instance()->loadSpriteSheet(
 		"../Assets/sprites/LudicoloSpriteSheet.txt",
 		"../Assets/Sprites/LudicoloSpritesheet.png",
 		"playerSpriteSheet");
+	TextureManager::Instance()->load("../Assets/textures/healthbarGreen.png", "greenHealth");
+	TextureManager::Instance()->load("../Assets/textures/healthbarRed.png", "redHealth");
 
 	setSpriteSheet(TextureManager::Instance()->getSpriteSheet("playerSpriteSheet"));
 
-	// Set frame width and height
+	// Set frame width and height for the player and healthbars
 	setWidth(31);
 	setHeight(31);
+
+	auto size = TextureManager::Instance()->getTextureSize("greenHealth");
+	setWidth(size.x);
+	setHeight(size.y);
+	
+	size = TextureManager::Instance()->getTextureSize("redHealth");
+	setWidth(size.x);
+	setHeight(size.y);
+	
 	
 	getTransform()->position = glm::vec2(400.0f, 300.0f);
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
@@ -25,6 +37,8 @@ Ship::Ship() : m_currentAnimationState(PLAYER_IDLE) {
 	getRigidBody()->isColliding = false;
 	setMaxSpeed(3.0f);
 	setType(SHIP);
+
+	m_health = 3;
 	
 	m_currentHeading = 0.0f; // current facing angle
 	m_currentDirection = glm::vec2(1.0f, 0.0f); // facing right
@@ -45,6 +59,12 @@ void Ship::draw()
 	const auto x = getTransform()->position.x;
 	const auto y = getTransform()->position.y;
 
+	// Draw the player's health
+	TextureManager::Instance()->draw("redHealth", getTransform()->position.x, getTransform()->position.y - getHeight(), 0, 255, true);	// Red bar underneath
+	// Draw the amount of health the player currently has
+	for (int i = 0; i < m_health; i++)
+		TextureManager::Instance()->draw("greenHealth", getTransform()->position.x + ((i * 30) - 30), getTransform()->position.y - getHeight(), 0, 255, true); // Green portion of the health bar
+	
 	// draw the ship based on the animation state
 	TextureManager::Instance()->draw("ship", x, y, m_currentHeading, 255, true);
 	switch (m_currentAnimationState) {
